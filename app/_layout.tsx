@@ -1,24 +1,57 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { AuthProvider, useAuth } from '../src/context/AuthContext';
+import { useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import LoginScreen from '../src/screens/LoginScreen';
+import RegisterScreen from '../src/screens/RegisterScreen';
+import * as SplashScreen from 'expo-splash-screen'; // userstorie 2.5
+import { useEffect } from 'react'; // userstorie 2.5
+import { useFonts, BebasNeue_400Regular } from '@expo-google-fonts/bebas-neue';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
 
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+
+//userstorie 2.2
+SplashScreen.preventAutoHideAsync();
+
+function RootContent() {
+  const { isLoggedIn, isLoading } = useAuth();
+  const [showRegister, setShowRegister] = useState(false);
+  const [fontsLoaded] = useFonts({ BebasNeue_400Regular });
+
+  useEffect(() => {
+    if (!isLoading) {
+      SplashScreen.hideAsync();
+    }
+  }, [isLoading]);
+
+  if (isLoading ) {
+    return null; //splashscreen
+  }
+
+  if (!isLoggedIn) {
+    if (showRegister) {
+      return (
+        <RegisterScreen
+          onRegisterSuccess={() => setShowRegister(false)}
+          onGoToLogin={() => setShowRegister(false)}
+        />
+      );
+    }
+    return (
+      <LoginScreen
+        onLoginSuccess={() => {}}
+        onGoToRegister={() => setShowRegister(true)}
+      />
+    );
+  }
+
+  return <Stack screenOptions={{ headerShown: false }} />;
+}
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <AuthProvider>
+      <RootContent />
+    </AuthProvider>
   );
 }
