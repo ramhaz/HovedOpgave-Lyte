@@ -1,12 +1,15 @@
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import useHydrationPlan from '../hooks/useHydrationPlan';
-
-
-
+import usePlanDetail from '../hooks/usePlanDetail';
+import TodayGoal from '../components/TodayGoal';
+import DailyProgressBar from '../components/DailyProgressBar';
+import WaterLogInput from '../components/WaterLogInput';
+import PlanOverview from '../components/PlanOverview';
 
 // US 3.1
 export default function RoadmapScreen() {
   const { plan, loading, starting, error, handleStartPlan, handleRestartPlan } = useHydrationPlan();
+  const { todayLog, allLogs, loading: detailLoading, refetch } = usePlanDetail(plan?.id ?? null);
 
   if (loading) {
     return (
@@ -17,7 +20,7 @@ export default function RoadmapScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.logo}>LYTE+</Text>
       <Text style={styles.title}>30-dages hydreringsplan</Text>
 
@@ -43,18 +46,28 @@ export default function RoadmapScreen() {
             )}
           </TouchableOpacity>
         </View>
+      ) : detailLoading ? (
+        <ActivityIndicator size="large" color="#1A1A1A" style={{ marginTop: 40 }} />
       ) : (
-         <View style={styles.activeCard}>
-                 <Text style={styles.activeTitle}>Din plan er aktiv</Text>
-                 <Text style={styles.activeDesc}>
-             Startdato: {new Date(plan.startDate).toLocaleDateString('da-DK')}
-        </Text>
+        <>
+          {todayLog && (
+            <>
+              <TodayGoal dayNumber={todayLog.dayNumber} targetMl={todayLog.targetMl} />
+              <DailyProgressBar loggedMl={todayLog.loggedMl} targetMl={todayLog.targetMl} />
+              <WaterLogInput planId={plan.id} dayNumber={todayLog.dayNumber} onLogged={refetch} />
+            </>
+          )}
+
+          {allLogs.length > 0 && (
+            <PlanOverview logs={allLogs} currentDay={todayLog?.dayNumber ?? 1} />
+          )}
+
           <TouchableOpacity style={styles.restartButton} onPress={handleRestartPlan}>
-                 <Text style={styles.restartText}>Start forfra</Text>
-         </TouchableOpacity>
-     </View>
+            <Text style={styles.restartText}>Start forfra</Text>
+          </TouchableOpacity>
+        </>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -62,8 +75,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F0E1',
+  },
+  content: {
     paddingHorizontal: 24,
     paddingTop: 80,
+    paddingBottom: 40,
   },
   loader: {
     flex: 1,
@@ -126,21 +142,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     color: '#1A1A1A',
-  },
-  activeCard: {
-    backgroundColor: '#1A1A1A',
-    borderRadius: 16,
-    padding: 24,
-  },
-  activeTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#F5F0E1',
-  },
-  activeDesc: {
-    fontSize: 14,
-    color: '#A09A8A',
-    marginTop: 8,
   },
   restartButton: {
   borderWidth: 1,

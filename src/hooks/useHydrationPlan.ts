@@ -34,6 +34,8 @@ export default function useHydrationPlan() {
 
     if (result.success) {
       setPlan(result.plan);
+    } else if (result.error?.includes('allerede en aktiv plan')) {
+      await fetchPlan();
     } else {
       setError(result.error || 'Noget gik galt.');
     }

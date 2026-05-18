@@ -36,6 +36,13 @@ export default function TabLayout() {
       title: 'roadmap',
        tabBarIcon: ({ color }) => <IconSymbol size={28} name="map.fill" color={color} />,
        }}     
+      /> 
+      <Tabs.Screen
+      name="history"
+      options={{
+      title: 'history',
+       tabBarIcon: ({ color }) => <IconSymbol size={28} name="map.fill" color={color} />,
+       }}     
       />
       
 
