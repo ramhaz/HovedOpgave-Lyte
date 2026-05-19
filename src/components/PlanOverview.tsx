@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { neu, C } from '../config/neu';
 
 // US 3.5
 type DayLog = {
@@ -21,8 +22,14 @@ export default function PlanOverview({ logs, currentDay }: Props) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Dag {currentDay} af 30</Text>
+    <View style={[neu.card, styles.container]}>
+      <View style={styles.topRow}>
+        <Text style={styles.header}>Roadmap oversigt</Text>
+        <View style={[neu.inset, styles.dayBadge]}>
+          <Text style={styles.dayBadgeText}>Dag {currentDay} / 30</Text>
+        </View>
+      </View>
+
       <View style={styles.grid}>
         {logs.map((log) => {
           const status = getStatus(log);
@@ -39,8 +46,7 @@ export default function PlanOverview({ logs, currentDay }: Props) {
               <Text
                 style={[
                   styles.dayText,
-                  status === 'complete' && styles.dayTextComplete,
-                  status === 'missed' && styles.dayTextMissed,
+                  (status === 'complete' || status === 'missed') && styles.dayTextLight,
                 ]}
               >
                 {log.dayNumber}
@@ -70,18 +76,29 @@ export default function PlanOverview({ logs, currentDay }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 20,
-    borderWidth: 1,
-    borderColor: '#E8E3D4',
+    marginBottom: 16,
+  },
+  topRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 16,
   },
   header: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#1A1A1A',
-    marginBottom: 16,
+    color: C.text,
+  },
+  dayBadge: {
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    padding: 0,
+  },
+  dayBadgeText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: C.textSoft,
   },
   grid: {
     flexDirection: 'row',
@@ -91,28 +108,25 @@ const styles = StyleSheet.create({
   dayBox: {
     width: 40,
     height: 40,
-    borderRadius: 8,
+    borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
   dayComplete: {
-    backgroundColor: '#2D8A4E',
+    backgroundColor: C.success,
   },
   dayMissed: {
-    backgroundColor: '#C44040',
+    backgroundColor: C.error,
   },
   dayFuture: {
-    backgroundColor: '#E8E3D4',
+    backgroundColor: C.inset,
   },
   dayText: {
     fontSize: 13,
     fontWeight: '700',
-    color: '#7A7568',
+    color: C.textSoft,
   },
-  dayTextComplete: {
-    color: '#FFFFFF',
-  },
-  dayTextMissed: {
+  dayTextLight: {
     color: '#FFFFFF',
   },
   legend: {
@@ -126,12 +140,12 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   legendDot: {
-    width: 12,
-    height: 12,
+    width: 10,
+    height: 10,
     borderRadius: 4,
   },
   legendText: {
     fontSize: 12,
-    color: '#7A7568',
+    color: C.textSoft,
   },
 });

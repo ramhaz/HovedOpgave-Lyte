@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { neu, C } from '../config/neu';
 
 // US 3.6
 type Props = {
@@ -17,18 +18,18 @@ export default function HistoryDayCard({ dayNumber, logDate, loggedMl, targetMl 
   });
 
   return (
-    <View style={styles.card}>
+    <View style={[neu.cardSm, styles.card]}>
       <View style={styles.left}>
         <Text style={styles.day}>Dag {dayNumber}</Text>
         <Text style={styles.date}>{dateStr}</Text>
       </View>
 
       <View style={styles.middle}>
-        <View style={styles.trackOuter}>
+        <View style={[neu.inset, styles.trackOuter]}>
           <View
             style={[
               styles.trackInner,
-              { width: `${percent}%` },
+              { width: `${percent}%` as any },
               isComplete && styles.trackComplete,
             ]}
           />
@@ -47,14 +48,11 @@ export default function HistoryDayCard({ dayNumber, logDate, loggedMl, targetMl 
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: '#E8E3D4',
-    marginBottom: 8,
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
   },
   left: {
     width: 60,
@@ -62,11 +60,11 @@ const styles = StyleSheet.create({
   day: {
     fontSize: 14,
     fontWeight: '700',
-    color: '#1A1A1A',
+    color: C.text,
   },
   date: {
-    fontSize: 12,
-    color: '#7A7568',
+    fontSize: 11,
+    color: C.textMuted,
     marginTop: 2,
   },
   middle: {
@@ -74,33 +72,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
   trackOuter: {
-    height: 8,
-    backgroundColor: '#F5F0E1',
-    borderRadius: 4,
+    height: 10,
+    borderRadius: 5,
     overflow: 'hidden',
+    padding: 0,
   },
   trackInner: {
-    height: 8,
-    backgroundColor: '#1A1A1A',
-    borderRadius: 4,
+    height: 10,
+    backgroundColor: C.text,
+    borderRadius: 5,
   },
   trackComplete: {
-    backgroundColor: '#2D8A4E',
+    backgroundColor: C.success,
   },
   right: {
     alignItems: 'flex-end',
     width: 80,
   },
   ml: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '700',
-    color: '#1A1A1A',
+    color: C.text,
   },
   mlComplete: {
-    color: '#2D8A4E',
+    color: C.success,
   },
   target: {
     fontSize: 11,
-    color: '#A09A8A',
+    color: C.textMuted,
   },
 });

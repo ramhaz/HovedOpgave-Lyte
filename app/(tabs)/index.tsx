@@ -11,19 +11,18 @@ import HeroSection from '../../src/components/HeroSection';
 import ProductCard from '../../src/components/ProductCard';
 import IngredientPills from '../../src/components/IngredientPills';
 import RoadmapTeaser from '../../src/components/RoadmapTeaser';
-import ReviewCard from '../../src/components/ReviewCard';
+//import ReviewCard from '../../src/components/ReviewCard';
 import WhyLyteCard from '../../src/components/WhyLyteCard';
+import { C } from '../../src/config/neu';
 
 export default function HomeScreen() {
   const { products, ingredients, reviews, loading } = useHomeData();
 
   return (
-    <ScrollView style={styles.container}>
-      
-      <HeroSection /> 
-  
-      <RoadmapTeaser/>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <HeroSection />
 
+      <RoadmapTeaser />
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Hvorfor LYTE?</Text>
@@ -40,7 +39,7 @@ export default function HomeScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Nøgleingredienser</Text>
         {loading ? (
-          <ActivityIndicator size="small" color="#1A1A1A" />
+          <ActivityIndicator size="small" color={C.text} />
         ) : (
           <IngredientPills
             ingredients={ingredients.filter((i) => i.productId === 1)}
@@ -48,33 +47,17 @@ export default function HomeScreen() {
         )}
       </View>
 
-
-
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Vores produkter</Text>
         {loading ? (
-          <ActivityIndicator size="small" color="#1A1A1A" />
+          <ActivityIndicator size="small" color={C.text} />
         ) : (
           products.map((p) => <ProductCard key={p.id} product={p} />)
         )}
       </View>
 
 
-
-      
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Kundeanmeldelser</Text>
-        {loading ? (
-          <ActivityIndicator size="small" color="#1A1A1A" />
-        ) : (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {reviews.map((r) => (
-              <ReviewCard key={r.id} review={r} />
-            ))}
-          </ScrollView>
-        )}
-      </View>
-
+ 
 
       <View style={{ height: 40 }} />
     </ScrollView>
@@ -84,7 +67,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F0E1',
+    backgroundColor: C.bg,
   },
   section: {
     paddingHorizontal: 20,
@@ -92,8 +75,8 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: '700',
-    color: '#1A1A1A',
+    fontWeight: '800',
+    color: C.text,
     marginBottom: 16,
   },
 });

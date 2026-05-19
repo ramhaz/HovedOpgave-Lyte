@@ -1,5 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import useWaterLog from '../hooks/useWaterLog';
+import { neu, C } from '../config/neu';
 
 // US 3.3
 type Props = {
@@ -13,32 +14,37 @@ export default function WaterLogInput({ planId, dayNumber, onLogged }: Props) {
     useWaterLog(planId, dayNumber, onLogged);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>Log dit vandindtag</Text>
+    <View style={[neu.card, styles.card]}>
+      <Text style={styles.label}>Log vandindtag</Text>
 
       <View style={styles.quickButtons}>
-        <TouchableOpacity style={styles.quickBtn} onPress={() => logAmount(250)} disabled={loading}>
-          <Text style={styles.quickBtnText}>250 ml</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.quickBtn} onPress={() => logAmount(500)} disabled={loading}>
-          <Text style={styles.quickBtnText}>500 ml</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.quickBtn} onPress={() => logAmount(200)} disabled={loading}>
-          <Text style={styles.quickBtnText}>1 glas</Text>
-        </TouchableOpacity>
+        {[{ label: '250 ml', ml: 250 }, { label: '500 ml', ml: 500 }].map((btn) => (
+          <TouchableOpacity
+            key={btn.label}
+            style={[neu.inset, styles.quickBtn]}
+            onPress={() => logAmount(btn.ml)}
+            disabled={loading}
+          >
+            <Text style={styles.quickBtnText}>{btn.label}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
 
       <View style={styles.customRow}>
         <TextInput
-          style={styles.customInput}
-          placeholder="Andet (ml)"
-          placeholderTextColor="#A09A8A"
+          style={[neu.inset, styles.customInput]}
+          placeholder="Anden mængde (ml)"
+          placeholderTextColor={C.textMuted}
           value={customMl}
           onChangeText={setCustomMl}
           keyboardType="numeric"
         />
-        <TouchableOpacity style={styles.customBtn} onPress={handleCustomLog} disabled={loading || !customMl}>
-          <Text style={styles.customBtnText}>Tilføj</Text>
+        <TouchableOpacity
+          style={[neu.darkBtn, styles.addBtn]}
+          onPress={handleCustomLog}
+          disabled={loading || !customMl}
+        >
+          <Text style={styles.addBtnText}>+</Text>
         </TouchableOpacity>
       </View>
 
@@ -48,68 +54,57 @@ export default function WaterLogInput({ planId, dayNumber, onLogged }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 20,
-    borderWidth: 1,
-    borderColor: '#E8E3D4',
+  card: {
     marginBottom: 16,
   },
   label: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#1A1A1A',
-    marginBottom: 12,
+    color: C.text,
+    marginBottom: 16,
   },
   quickButtons: {
     flexDirection: 'row',
     gap: 10,
+    marginBottom: 12,
   },
   quickBtn: {
     flex: 1,
-    backgroundColor: '#F5F0E1',
-    borderRadius: 10,
     paddingVertical: 14,
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E8E3D4',
   },
   quickBtnText: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#1A1A1A',
+    color: C.text,
   },
   customRow: {
     flexDirection: 'row',
     gap: 10,
-    marginTop: 12,
   },
   customInput: {
     flex: 1,
-    backgroundColor: '#F5F0E1',
-    borderRadius: 10,
     padding: 14,
-    fontSize: 16,
-    color: '#1A1A1A',
-    borderWidth: 1,
-    borderColor: '#E8E3D4',
+    fontSize: 15,
+    color: C.text,
   },
-  customBtn: {
-    backgroundColor: '#1A1A1A',
-    borderRadius: 10,
-    paddingHorizontal: 20,
+  addBtn: {
+    width: 54,
+    height: 54,
+    borderRadius: 16,
+    paddingVertical: 0,
     justifyContent: 'center',
   },
-  customBtnText: {
-    fontSize: 15,
-    fontWeight: '700',
-    color: '#F5F0E1',
+  addBtnText: {
+    fontSize: 28,
+    fontWeight: '300',
+    color: C.bg,
+    lineHeight: 32,
   },
   feedback: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#1A1A1A',
+    color: C.success,
     marginTop: 12,
     textAlign: 'center',
   },

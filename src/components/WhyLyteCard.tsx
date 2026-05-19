@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { neu, C } from '../config/neu';
 
 type Props = {
   icon: string;
@@ -8,9 +9,11 @@ type Props = {
 
 export default function WhyLyteCard({ icon, title, description }: Props) {
   return (
-    <View style={styles.card}>
-      <Text style={styles.icon}>{icon}</Text>
-      <View style={{ flex: 1 }}>
+    <View style={[neu.cardSm, styles.card]}>
+      <View style={[neu.inset, styles.iconBox]}>
+        <Text style={styles.icon}>{icon}</Text>
+      </View>
+      <View style={styles.content}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.desc}>{description}</Text>
       </View>
@@ -21,26 +24,32 @@ export default function WhyLyteCard({ icon, title, description }: Props) {
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
     alignItems: 'flex-start',
-    gap: 12,
-    borderWidth: 1,
-    borderColor: '#cebc92',
+    marginBottom: 12,
+    gap: 14,
+  },
+  iconBox: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 0,
   },
   icon: {
-    fontSize: 28,
+    fontSize: 24,
+  },
+  content: {
+    flex: 1,
   },
   title: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#1A1A1A',
+    color: C.text,
   },
   desc: {
     fontSize: 13,
-    color: '#7A7568',
+    color: C.textSoft,
     marginTop: 4,
     lineHeight: 19,
   },

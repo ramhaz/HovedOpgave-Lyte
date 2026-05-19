@@ -1,159 +1,180 @@
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, ImageBackground } from 'react-native';
 import useHydrationPlan from '../hooks/useHydrationPlan';
 import usePlanDetail from '../hooks/usePlanDetail';
 import TodayGoal from '../components/TodayGoal';
 import DailyProgressBar from '../components/DailyProgressBar';
 import WaterLogInput from '../components/WaterLogInput';
 import PlanOverview from '../components/PlanOverview';
+import { useFonts, Montserrat_700Bold_Italic } from '@expo-google-fonts/montserrat';
+import { neu, C } from '../config/neu';
 
 // US 3.1
 export default function RoadmapScreen() {
   const { plan, loading, starting, error, handleStartPlan, handleRestartPlan } = useHydrationPlan();
   const { todayLog, allLogs, loading: detailLoading, refetch } = usePlanDetail(plan?.id ?? null);
+  const [fontsLoaded] = useFonts({ Montserrat_700Bold_Italic });
 
-  if (loading) {
+  if (loading || !fontsLoaded) {
     return (
       <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#1A1A1A" />
+        <ActivityIndicator size="large" color={C.text} />
       </View>
     );
   }
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-      <Text style={styles.logo}>LYTE+</Text>
-      <Text style={styles.title}>30-dages hydreringsplan</Text>
-
-      {!plan ? (
-        <View style={styles.startCard}>
-          <Text style={styles.startTitle}>Klar til at starte?</Text>
-          <Text style={styles.startDesc}>
-            Følg vores 30-dages plan og opbyg en sund hydreringsvane.
-            Hver dag får du et nyt mål og kan tracke dit vandindtag.
-          </Text>
-
-          {error ? <Text style={styles.error}>{error}</Text> : null}
-
-          <TouchableOpacity
-            style={[styles.startButton, starting && styles.buttonDisabled]}
-            onPress={handleStartPlan}
-            disabled={starting}
-          >
-            {starting ? (
-              <ActivityIndicator color="#1A1A1A" />
-            ) : (
-              <Text style={styles.startButtonText}>Start 30-dages plan</Text>
-            )}
-          </TouchableOpacity>
+    <ImageBackground
+      source={require('../../assets/images/waterlyte.png')}
+      style={styles.wrapper}
+      imageStyle={{ opacity: 0.3 }}
+      resizeMode="cover"
+    >
+      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+        <View style={styles.header}>
+          <Text style={[styles.logo, { letterSpacing: 1 }]}>LYTE+</Text>
+          <Text style={styles.title}>30-dages plan</Text>
         </View>
-      ) : detailLoading ? (
-        <ActivityIndicator size="large" color="#1A1A1A" style={{ marginTop: 40 }} />
-      ) : (
-        <>
-          {todayLog && (
-            <>
-              <TodayGoal dayNumber={todayLog.dayNumber} targetMl={todayLog.targetMl} />
-              <DailyProgressBar loggedMl={todayLog.loggedMl} targetMl={todayLog.targetMl} />
-              <WaterLogInput planId={plan.id} dayNumber={todayLog.dayNumber} onLogged={refetch} />
-            </>
-          )}
 
-          {allLogs.length > 0 && (
-            <PlanOverview logs={allLogs} currentDay={todayLog?.dayNumber ?? 1} />
-          )}
+        {!plan ? (
+          <View style={[neu.card, styles.startCard]}>
+            <View style={[neu.inset, styles.startBadge]}>
+              <Text style={styles.startBadgeText}>30 dage</Text>
+            </View>
+            <Text style={styles.startTitle}>Klar til at starte?</Text>
+            <Text style={styles.startDesc}>
+              Følg vores 30-dages plan og opbyg en sund hydreringsvane.
+              Hver dag får du et nyt mål og kan tracke dit vandindtag.
+            </Text>
 
-          <TouchableOpacity style={styles.restartButton} onPress={handleRestartPlan}>
-            <Text style={styles.restartText}>Start forfra</Text>
-          </TouchableOpacity>
-        </>
-      )}
-    </ScrollView>
+            {error ? <Text style={styles.error}>{error}</Text> : null}
+
+            <TouchableOpacity
+              style={[neu.darkBtn, starting && styles.btnDisabled]}
+              onPress={handleStartPlan}
+              disabled={starting}
+            >
+              {starting ? (
+                <ActivityIndicator color={C.bg} />
+              ) : (
+                <Text style={styles.btnText}>Start 30-dages plan</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        ) : detailLoading ? (
+          <ActivityIndicator size="large" color={C.text} style={{ marginTop: 40 }} />
+        ) : (
+          <>
+            {todayLog && (
+              <>
+                <TodayGoal dayNumber={todayLog.dayNumber} targetMl={todayLog.targetMl} />
+                <DailyProgressBar loggedMl={todayLog.loggedMl} targetMl={todayLog.targetMl} />
+                <WaterLogInput planId={plan.id} dayNumber={todayLog.dayNumber} onLogged={refetch} />
+              </>
+            )}
+
+            {allLogs.length > 0 && (
+              <PlanOverview logs={allLogs} currentDay={todayLog?.dayNumber ?? 1} />
+            )}
+
+            <TouchableOpacity
+              style={[neu.card, styles.restartBtn]}
+              onPress={handleRestartPlan}
+            >
+              <Text style={styles.restartText}>Start forfra</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </ScrollView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    backgroundColor: C.bg,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#F5F0E1',
   },
   content: {
-    paddingHorizontal: 24,
-    paddingTop: 80,
+    paddingHorizontal: 20,
+    paddingTop: 64,
     paddingBottom: 40,
   },
   loader: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5F0E1',
+    backgroundColor: C.bg,
+  },
+  header: {
+    marginBottom: 24,
   },
   logo: {
-    fontSize: 36,
-    fontFamily: 'BebasNeue_400Regular',
-    color: '#1A1A1A',
-    letterSpacing: 6,
-    marginBottom: 8,
+    fontSize: 28,
+    fontFamily: 'Montserrat_700Bold_Italic',
+    color: C.text,
+    letterSpacing: 4,
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: '800',
-    color: '#1A1A1A',
-    marginBottom: 28,
+    color: C.text,
+    marginTop: 4,
   },
   startCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    padding: 24,
-    borderWidth: 1,
-    borderColor: '#E8E3D4',
+    gap: 0,
+  },
+  startBadge: {
+    alignSelf: 'flex-start',
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    padding: 0,
+    marginBottom: 14,
+  },
+  startBadgeText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: C.textSoft,
   },
   startTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: '#1A1A1A',
+    fontSize: 22,
+    fontWeight: '800',
+    color: C.text,
+    marginBottom: 8,
   },
   startDesc: {
     fontSize: 14,
-    color: '#7A7568',
-    marginTop: 8,
+    color: C.textSoft,
     lineHeight: 21,
+    marginBottom: 20,
   },
   error: {
     fontSize: 14,
-    color: '#C44040',
+    color: C.error,
     backgroundColor: '#F5E6E6',
     padding: 12,
-    borderRadius: 8,
-    marginTop: 16,
+    borderRadius: 12,
+    marginBottom: 12,
   },
-  startButton: {
-    backgroundColor: '#F5F0E1',
-    borderRadius: 10,
-    paddingVertical: 16,
-    alignItems: 'center',
-    marginTop: 20,
-    borderWidth: 1,
-    borderColor: '#1A1A1A',
-  },
-  buttonDisabled: {
+  btnDisabled: {
     opacity: 0.6,
   },
-  startButtonText: {
+  btnText: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#1A1A1A',
+    color: C.bg,
   },
-  restartButton: {
-  borderWidth: 1,
-  borderColor: '#C44040',
-  borderRadius: 10,
-  paddingVertical: 12,
-  alignItems: 'center',
-  marginTop: 20,
-},
-restartText: {
-  fontSize: 14,
-  fontWeight: '600',
-  color: '#C44040',
-},
+  restartBtn: {
+    alignItems: 'center',
+    marginTop: 4,
+    paddingVertical: 16,
+  },
+  restartText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: C.error,
+  },
 });

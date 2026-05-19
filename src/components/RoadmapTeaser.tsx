@@ -1,30 +1,34 @@
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import useHydrationPlan from '../hooks/useHydrationPlan';
+import { neu, C } from '../config/neu';
 
 // US 3.1
 export default function RoadmapTeaser() {
   const { plan, starting, handleStartPlan } = useHydrationPlan();
 
   return (
-    <View style={styles.teaser}>
-      <Text style={styles.title}>30-dages hydreringsplan</Text>
+    <View style={[neu.card, styles.card]}>
+      <View style={styles.topRow}>
+        <View style={[neu.inset, styles.badge]}>
+          <Text style={styles.badgeText}>30 dage</Text>
+        </View>
+        <Text style={styles.status}>{plan ? '✓ Aktiv' : 'Ikke startet'}</Text>
+      </View>
+
+      <Text style={styles.title}>Hydreringsplan</Text>
       <Text style={styles.desc}>
-        Følg vores 30-dages plan og opbyg en sund hydreringsvane. Hver dag
-        får du et nyt mål og viden om hvorfor hydrering er vigtigere end du
-        tror.
+        Opbyg en sund vane dag for dag. Hvert mål er tilpasset til at hjælpe dig drikke mere.
       </Text>
-      <Text style={styles.days}>30 dage</Text>
+
       <TouchableOpacity
-        style={[styles.button, (plan || starting) && styles.buttonDisabled]}
+        style={[neu.darkBtn, (plan || starting) && styles.btnDisabled]}
         onPress={handleStartPlan}
         disabled={!!plan || starting}
       >
         {starting ? (
-          <ActivityIndicator color="#1A1A1A" />
+          <ActivityIndicator color={C.bg} />
         ) : (
-          <Text style={styles.buttonText}>
-            {plan ? 'Plan aktiv' : 'Start i dag'}
-          </Text>
+          <Text style={styles.btnText}>{plan ? 'Plan aktiv' : 'Start i dag'}</Text>
         )}
       </TouchableOpacity>
     </View>
@@ -32,43 +36,51 @@ export default function RoadmapTeaser() {
 }
 
 const styles = StyleSheet.create({
-  teaser: {
-    backgroundColor: '#1A1A1A',
-    margin: 20,
-    borderRadius: 16,
-    padding: 24,
-    marginTop: 28,
+  card: {
+    marginHorizontal: 20,
+    marginTop: 8,
+    marginBottom: 4,
+  },
+  topRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 14,
+  },
+  badge: {
+    borderRadius: 20,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    padding: 0,
+  },
+  badgeText: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: C.textSoft,
+  },
+  status: {
+    fontSize: 13,
+    color: C.textMuted,
+    fontWeight: '500',
   },
   title: {
     fontSize: 22,
-    fontWeight: '700',
-    color: '#F5F0E1',
+    fontWeight: '800',
+    color: C.text,
+    marginBottom: 8,
   },
   desc: {
     fontSize: 14,
-    color: '#A09A8A',
-    marginTop: 10,
+    color: C.textSoft,
     lineHeight: 21,
+    marginBottom: 20,
   },
-  days: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: '#F5F0E1',
-    marginTop: 16,
+  btnDisabled: {
+    opacity: 0.5,
   },
-  button: {
-    backgroundColor: '#F5F0E1',
-    borderRadius: 10,
-    paddingVertical: 14,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
+  btnText: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#1A1A1A',
+    color: C.bg,
   },
 });

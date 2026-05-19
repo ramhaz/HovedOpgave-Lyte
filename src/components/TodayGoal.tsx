@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { neu, C } from '../config/neu';
 
 // US 3.2
 type Props = {
@@ -10,31 +11,42 @@ export default function TodayGoal({ dayNumber, targetMl }: Props) {
   const liters = (targetMl / 1000).toFixed(1);
 
   return (
-    <View style={styles.card}>
-      <Text style={styles.day}>Dag {dayNumber}</Text>
-      <Text style={styles.goal}>Drik {liters} liter i dag</Text>
+    <View style={[neu.card, styles.card]}>
+      <View style={styles.badge}>
+        <Text style={styles.badgeText}>Dag {dayNumber}</Text>
+      </View>
+      <Text style={styles.goal}>{liters}</Text>
+      <Text style={styles.unit}>liter i dag</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 20,
-    borderWidth: 1,
-    borderColor: '#E8E3D4',
     marginBottom: 16,
+    alignItems: 'center',
   },
-  day: {
-    fontSize: 14,
+  badge: {
+    backgroundColor: C.inset,
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    marginBottom: 12,
+  },
+  badgeText: {
+    fontSize: 13,
     fontWeight: '600',
-    color: '#7A7568',
+    color: C.textSoft,
   },
   goal: {
-    fontSize: 22,
+    fontSize: 56,
     fontWeight: '800',
-    color: '#1A1A1A',
+    color: C.text,
+    lineHeight: 64,
+  },
+  unit: {
+    fontSize: 16,
+    color: C.textMuted,
     marginTop: 4,
   },
 });

@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { neu, C } from '../config/neu';
 
 // US 3.4
 type Props = {
@@ -11,79 +12,92 @@ export default function DailyProgressBar({ loggedMl, targetMl }: Props) {
   const isComplete = loggedMl >= targetMl;
 
   return (
-    <View style={styles.container}>
+    <View style={[neu.card, styles.card]}>
       <View style={styles.header}>
-        <Text style={styles.mlText}>
-          {loggedMl} / {targetMl} ml
-        </Text>
+        <Text style={styles.label}>Fremgang</Text>
         <Text style={[styles.percent, isComplete && styles.percentComplete]}>
           {percent}%
         </Text>
       </View>
 
-      <View style={styles.trackOuter}>
+      <View style={[neu.inset, styles.trackOuter]}>
         <View
           style={[
             styles.trackInner,
-            { width: `${percent}%` },
+            { width: `${percent}%` as any },
             isComplete && styles.trackComplete,
           ]}
         />
       </View>
 
+      <View style={styles.footer}>
+        <Text style={styles.ml}>{loggedMl} ml</Text>
+        <Text style={styles.mlTarget}>/ {targetMl} ml</Text>
+      </View>
+
       {isComplete && (
-        <Text style={styles.completeText}>Mål nået! Godt gået!</Text>
+        <Text style={styles.completeText}>Mål nået! Godt gået! 🎉</Text>
       )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 20,
-    borderWidth: 1,
-    borderColor: '#E8E3D4',
+  card: {
     marginBottom: 16,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 14,
   },
-  mlText: {
-    fontSize: 14,
-    color: '#7A7568',
-    fontWeight: '500',
+  label: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: C.textSoft,
   },
   percent: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: '800',
-    color: '#1A1A1A',
+    color: C.text,
   },
   percentComplete: {
-    color: '#2D8A4E',
+    color: C.success,
   },
   trackOuter: {
-    height: 12,
-    backgroundColor: '#F5F0E1',
-    borderRadius: 6,
+    height: 14,
+    borderRadius: 7,
     overflow: 'hidden',
+    padding: 0,
   },
   trackInner: {
-    height: 12,
-    backgroundColor: '#1A1A1A',
-    borderRadius: 6,
+    height: 14,
+    backgroundColor: C.text,
+    borderRadius: 7,
   },
   trackComplete: {
-    backgroundColor: '#2D8A4E',
+    backgroundColor: C.success,
+  },
+  footer: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    marginTop: 10,
+    gap: 4,
+  },
+  ml: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: C.text,
+  },
+  mlTarget: {
+    fontSize: 13,
+    color: C.textMuted,
   },
   completeText: {
     fontSize: 15,
     fontWeight: '700',
-    color: '#2D8A4E',
+    color: C.success,
     textAlign: 'center',
     marginTop: 12,
   },
