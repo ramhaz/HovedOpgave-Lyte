@@ -24,7 +24,7 @@ export async function startPlan(userId: string) {
 }
 
 
-// US 3.2 - Hent dagens log
+
 export async function getTodayLog(planId: number) {
   try {
     const res = await api.get(`/hydrationlog/today/${planId}`, { timeout: 5000 });

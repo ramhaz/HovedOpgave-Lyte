@@ -7,15 +7,15 @@ type Props = {
 };
 
 //export default function ReviewCard({ review }: Props) {
-  return (
-    <View style={[neu.card, styles.card]}>
-      <Text style={styles.stars}>
-        {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
-      </Text>
-      <Text style={styles.text}>"{review.text}"</Text>
-      <Text style={styles.name}>— {review.name}</Text>
-    </View>
-  );
+  //return (
+   // <View style={[neu.card, styles.card]}>
+    //  <Text style={styles.stars}>
+       // {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+     // </Text>
+    //  <Text style={styles.text}>"{review.text}"</Text>
+    //  <Text style={styles.name}>— {review.name}</Text>
+   // </View>
+ // );
 //}
 
 const styles = StyleSheet.create({

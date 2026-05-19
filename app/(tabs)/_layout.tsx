@@ -3,6 +3,7 @@ import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   return (
@@ -56,7 +57,17 @@ export default function TabLayout() {
         options={{
           title: 'Profil',
           tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.fill" color={color} />,
-        }}
+        }}        
+      />
+      <Tabs.Screen
+         name="Challenges"
+         options={{
+           tabBarIcon: ({ color, size }) => (
+            <Ionicons name="trophy-outline" size={size} color={color} />
+        ),
+        tabBarLabel: 'Challenges',
+        headerShown: false,
+         }}
       />
     </Tabs>
   );
