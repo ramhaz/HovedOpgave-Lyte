@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
-  ImageBackground,
   View,
   KeyboardAvoidingView,
   Platform,
@@ -25,12 +24,7 @@ export default function RegisterScreen({ onRegisterSuccess, onGoToLogin }: Props
   if (!fontsLoaded) return null;
 
   return (
-    <ImageBackground
-      source={require('../../assets/images/dropletslyte.png')}
-      style={styles.bg}
-      imageStyle={{ opacity: 0.4 }}
-      resizeMode="cover"
-    >
+    <View style={styles.bg}>
       <KeyboardAvoidingView
         style={styles.inner}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -81,7 +75,7 @@ export default function RegisterScreen({ onRegisterSuccess, onGoToLogin }: Props
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
-    </ImageBackground>
+    </View>
   );
 }
 

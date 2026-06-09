@@ -1,9 +1,14 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../src/context/AuthContext';
 import { useFonts, Montserrat_700Bold_Italic } from '@expo-google-fonts/montserrat';
 import { C } from '../config/neu';
 
-export default function HeroSection() {
+type Props = {
+  onProfilePress?: () => void;
+};
+
+export default function HeroSection({ onProfilePress }: Props) {
   const { logout } = useAuth();
   const [fontsLoaded] = useFonts({ Montserrat_700Bold_Italic });
   if (!fontsLoaded) return null;
@@ -14,9 +19,14 @@ export default function HeroSection() {
         <Text style={styles.greeting}>Hej igeeeen </Text>
         <Text style={[styles.logo, { letterSpacing: 1 }]}>LYTE+</Text>
       </View>
-      <TouchableOpacity onPress={logout} style={styles.avatar}>
-        <Text style={styles.avatarText}>↩</Text>
-      </TouchableOpacity>
+      <View style={styles.headerButtons}>
+        <TouchableOpacity onPress={onProfilePress} style={styles.avatar}>
+          <Ionicons name="person-outline" size={20} color={C.text} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={logout} style={styles.avatar}>
+          <Text style={styles.avatarText}>↩</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -60,5 +70,10 @@ const styles = StyleSheet.create({
   avatarText: {
     fontSize: 20,
     color: C.text,
+  },
+  headerButtons: {
+    flexDirection: 'row',
+    gap: 10,
+    alignItems: 'center',
   },
 });

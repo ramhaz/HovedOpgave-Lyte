@@ -9,14 +9,15 @@ import {
 } from 'react-native';
 import { useChallenges } from '../hooks/useChallenges';
 import ChallengeCard from '../components/ChallengeCard';
+import { neu, C } from '../config/neu';
 
 export default function ChallengesScreen() {
-    const { challenges, joinedIds, loading, error, refetch, joinChallenge } = useChallenges();
+    const { challenges, joinedIds, progressMap, points, loading, error, refetch, joinChallenge } = useChallenges();
 
     if (loading && challenges.length === 0) {
         return (
             <View style={styles.center}>
-                <ActivityIndicator size="large" color="#0284c7" />
+                <ActivityIndicator size="large" color={C.text} />
             </View>
         );
     }
@@ -30,16 +31,25 @@ export default function ChallengesScreen() {
     }
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.heading}>Challenges</Text>
-            <Text style={styles.subtitle}>Gennemfør challenges og optjen points 💧</Text>
-
+        <View style={styles.bg}>
             <FlatList
                 data={challenges}
                 keyExtractor={(item) => item.id}
+                ListHeaderComponent={
+                    <View>
+                        <Text style={styles.heading}>Challenges</Text>
+                        <Text style={styles.subtitle}>Gennemfør challenges og optjen points 💧</Text>
+                        <View style={[neu.card, styles.pointsBox]}>
+                            <Text style={styles.pointsTotal}>🏆 {points.totalPoints} points</Text>
+                            <Text style={styles.pointsSub}>{points.completedChallenges} challenges gennemført</Text>
+                        </View>
+                    </View>
+                }
                 renderItem={({ item }) => (
+                    // US 5.5 + 5.6 + 5.7 – Hvert kort viser challenge (5.5), tilmeldingsknap (5.6) og progress (5.7)
                     <ChallengeCard
                         challenge={item}
+                        progress={progressMap[item.id]}
                         isJoined={joinedIds.has(item.id)}
                         onJoin={joinChallenge}
                     />
@@ -57,11 +67,54 @@ export default function ChallengesScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#f8fafc' },
-    center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-    heading: { fontSize: 28, fontWeight: '800', color: '#1a1a2e', paddingHorizontal: 16, paddingTop: 16 },
-    subtitle: { fontSize: 14, color: '#64748b', paddingHorizontal: 16, marginBottom: 16 },
-    list: { paddingBottom: 24 },
-    errorText: { fontSize: 16, color: '#ef4444' },
-    emptyText: { textAlign: 'center', color: '#94a3b8', marginTop: 40, fontSize: 15 },
+    bg: { 
+        flex: 1, 
+        backgroundColor: C.bg
+     },
+    center: { 
+        flex: 1,
+         justifyContent: 'center',
+          alignItems: 'center', 
+          backgroundColor: C.bg 
+        },
+    heading: {
+        fontSize: 28,
+         fontWeight: '800',
+          color: C.text,
+           paddingHorizontal: 20,
+            paddingTop: 64
+         },
+    subtitle: { 
+        fontSize: 14, 
+        color: C.textSoft,
+         paddingHorizontal: 20, 
+         marginBottom: 16 
+        },
+    pointsBox: {
+        marginHorizontal: 20, 
+        marginBottom: 16, 
+        alignItems: 'center'
+     },
+    pointsTotal: {
+         fontSize: 24,
+         fontWeight: '800', 
+         color: C.gold 
+        },
+    pointsSub: {
+         fontSize: 13, 
+         color: C.gold 
+        },
+    list: {
+         paddingBottom: 24 
+        },
+    errorText: { 
+        fontSize: 16, 
+        color: C.error
+     },
+    emptyText: {
+         textAlign: 'center',
+          color: C.textMuted,
+           marginTop: 40, 
+           fontSize: 15 
+        },
 });

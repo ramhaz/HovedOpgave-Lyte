@@ -2,8 +2,40 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Ionicons } from '@expo/vector-icons';
+import { useCart } from '../../src/context/CartContext';
+import { View, Text, StyleSheet } from 'react-native';
+
+// US 5.5 – Badge på kurv-tab viser antal varer i kurven
+function CartBadge({ color, size }: { color: string; size: number }) {
+  const { itemCount } = useCart();
+  return (
+    <View>
+      <Ionicons name="cart-outline" size={size} color={color} />
+      {itemCount > 0 && (
+        <View style={badge.dot}>
+          <Text style={badge.text}>{itemCount > 9 ? '9+' : itemCount}</Text>
+        </View>
+      )}
+    </View>
+  );
+}
+
+const badge = StyleSheet.create({
+  dot: {
+    position: 'absolute',
+    top: -4,
+    right: -6,
+    backgroundColor: '#C44040',
+    borderRadius: 8,
+    minWidth: 16,
+    height: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 2,
+  },
+  text: { color: '#fff', fontSize: 10, fontWeight: '700' },
+});
 
 export default function TabLayout() {
   return (
@@ -35,30 +67,60 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Hjem',
-          tabBarIcon: ({ color }) => <IconSymbol size={26} name="house.fill" color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home-outline" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="roadmap"
         options={{
           title: 'Plan',
-          tabBarIcon: ({ color }) => <IconSymbol size={26} name="map.fill" color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="map-outline" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="history"
         options={{
           title: 'Historik',
-          tabBarIcon: ({ color }) => <IconSymbol size={26} name="clock.fill" color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="time-outline" size={size} color={color} />
+          ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profil',
-          tabBarIcon: ({ color }) => <IconSymbol size={26} name="person.fill" color={color} />,
-        }}        
+          href: null,
+        }}
       />
+      <Tabs.Screen
+        name="running"
+        options={{
+          href: null,
+        }}
+      />
+     <Tabs.Screen
+        name="runHistory"
+        options={{
+          href: null,
+        }}
+      />
+      <Tabs.Screen
+        name="sleep"
+        options={{
+          href: null,
+        }}
+      /> 
+      <Tabs.Screen
+        name="sleepHistory"
+        options={{
+          href: null,
+        }}
+      /> 
+      
       <Tabs.Screen
          name="Challenges"
          options={{
@@ -68,6 +130,20 @@ export default function TabLayout() {
         tabBarLabel: 'Challenges',
         headerShown: false,
          }}
+      />
+      {/* US 5.5 – Kurv-tab med badge */}
+      <Tabs.Screen
+        name="cart"
+        options={{
+          title: 'Kurv',
+          tabBarIcon: ({ color, size }) => <CartBadge color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name="orders"
+        options={{
+          href: null,
+        }}
       />
     </Tabs>
   );

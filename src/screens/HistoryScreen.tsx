@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, ImageBackground } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getHistoryLogs } from '../services/hydrationService';
 import HistoryDayCard from '../components/HistoryDayCard';
@@ -47,12 +47,7 @@ export default function HistoryScreen() {
   }
 
   return (
-    <ImageBackground
-      source={require('../../assets/images/standinglyte.png')}
-      style={styles.bg}
-      imageStyle={{ opacity: 0.25 }}
-      resizeMode="cover"
-    >
+    <View style={styles.bg}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Historik</Text>
@@ -75,7 +70,7 @@ export default function HistoryScreen() {
           contentContainerStyle={styles.list}
         />
       </View>
-    </ImageBackground>
+    </View>
   );
 }
 

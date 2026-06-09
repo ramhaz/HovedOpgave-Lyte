@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Challenge } from '../services/challengeService';
+import { Challenge, ChallengeProgress } from '../services/challengeService';
+import { neu, C } from '../config/neu';
 
 interface ChallengeCardProps {
     challenge: Challenge;
     isJoined: boolean;
+    progress?: ChallengeProgress;
     onJoin: (challengeId: string) => Promise<void>;
 }
 
@@ -14,7 +16,7 @@ const typeLabels: Record<string, string> = {
     plan: '📅 Langsigtet',
 };
 
-export default function ChallengeCard({ challenge, isJoined, onJoin }: ChallengeCardProps) {
+export default function ChallengeCard({ challenge, isJoined, progress, onJoin }: ChallengeCardProps) {
     const [joining, setJoining] = useState(false);
 
     const handleJoin = async () => {
@@ -29,10 +31,11 @@ export default function ChallengeCard({ challenge, isJoined, onJoin }: Challenge
     };
 
     return (
-        <View style={styles.card}>
+        // US 5.5 – Vis challenge-info (titel, beskrivelse, type, mål)
+        <View style={[neu.cardSm, styles.card]}>
             <View style={styles.header}>
                 <Text style={styles.title}>{challenge.title}</Text>
-                <View style={styles.pointsBadge}>
+                <View style={[neu.inset, styles.pointsBadge]}>
                     <Text style={styles.pointsText}>{challenge.points} pts</Text>
                 </View>
             </View>
@@ -43,23 +46,48 @@ export default function ChallengeCard({ challenge, isJoined, onJoin }: Challenge
                 <Text style={styles.type}>{typeLabels[challenge.type] ?? challenge.type}</Text>
                 <Text style={styles.target}>
                     Mål: {challenge.type === 'single'
-                        ? `${challenge.target_value} ml`
+                        ? (challenge.category === 'running'
+                            ? `${challenge.target_value} km`
+                            : challenge.category === 'sleep'
+                            ? `${challenge.target_value} timer`
+                            : `${challenge.target_value} ml`)
                         : `${challenge.target_value} dage`}
                 </Text>
             </View>
 
+            {/* US 5.7 – Vis progress-bar og fremskridtstekst */}
+            {isJoined && progress && (
+                <View style={styles.progressSection}>
+                    <View style={styles.progressBarBg}>
+                        <View style={[
+                            styles.progressBarFill,
+                            { width: `${Math.min(progress.progressPercent, 100)}%` },
+                            progress.isCompleted && styles.progressBarCompleted
+                        ]} />
+                    </View>
+                    <Text style={styles.progressText}>
+                        {progress.isCompleted ? '🎉 Gennemført!' : progress.progressText}
+                    </Text>
+                </View>
+            )}
+
+            {/* US 5.6 – Tilmeld-knap / tilmeldt-badge */}
             {isJoined ? (
-                <View style={styles.joinedBadge}>
-                    <Text style={styles.joinedText}>✅ Tilmeldt</Text>
+                // US 5.7 – Vis gennemført-badge med optjente points
+                <View style={[neu.inset, styles.joinedBadge, progress?.isCompleted && styles.completedBadge]}>
+                    <Text style={[styles.joinedText, progress?.isCompleted && styles.completedText]}>
+                        {progress?.isCompleted ? `🏆 +${challenge.points} points` : '✅ Tilmeldt'}
+                    </Text>
                 </View>
             ) : (
+                // US 5.6 – Deltag-knap til tilmelding
                 <TouchableOpacity
-                    style={styles.joinButton}
+                    style={[neu.darkBtn, styles.joinButton]}
                     onPress={handleJoin}
                     disabled={joining}
                 >
                     {joining ? (
-                        <ActivityIndicator size="small" color="#fff" />
+                        <ActivityIndicator size="small" color={C.bg} />
                     ) : (
                         <Text style={styles.joinButtonText}>Deltag</Text>
                     )}
@@ -71,16 +99,8 @@ export default function ChallengeCard({ challenge, isJoined, onJoin }: Challenge
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#fff',
-        borderRadius: 16,
-        padding: 16,
-        marginHorizontal: 16,
+        marginHorizontal: 20,
         marginBottom: 12,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 8,
-        elevation: 3,
     },
     header: {
         flexDirection: 'row',
@@ -88,64 +108,22 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 8,
     },
-    title: {
-        fontSize: 18,
-        fontWeight: '700',
-        color: '#1a1a2e',
-        flex: 1,
-    },
-    pointsBadge: {
-        backgroundColor: '#e0f2fe',
-        paddingHorizontal: 10,
-        paddingVertical: 4,
-        borderRadius: 12,
-    },
-    pointsText: {
-        fontSize: 13,
-        fontWeight: '600',
-        color: '#0284c7',
-    },
-    description: {
-        fontSize: 14,
-        color: '#64748b',
-        lineHeight: 20,
-        marginBottom: 12,
-    },
-    footer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 12,
-    },
-    type: {
-        fontSize: 13,
-        color: '#94a3b8',
-        fontWeight: '500',
-    },
-    target: {
-        fontSize: 13,
-        color: '#94a3b8',
-    },
-    joinButton: {
-        backgroundColor: '#0284c7',
-        borderRadius: 12,
-        paddingVertical: 10,
-        alignItems: 'center',
-    },
-    joinButtonText: {
-        color: '#fff',
-        fontSize: 15,
-        fontWeight: '600',
-    },
-    joinedBadge: {
-        backgroundColor: '#f0fdf4',
-        borderRadius: 12,
-        paddingVertical: 10,
-        alignItems: 'center',
-    },
-    joinedText: {
-        color: '#16a34a',
-        fontSize: 15,
-        fontWeight: '600',
-    },
+    title: { fontSize: 18, fontWeight: '700', color: C.text, flex: 1 },
+    pointsBadge: { paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12, padding: 0 },
+    pointsText: { fontSize: 13, fontWeight: '600', color: C.gold },
+    description: { fontSize: 14, color: C.textSoft, lineHeight: 20, marginBottom: 12 },
+    footer: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
+    type: { fontSize: 13, color: C.textMuted, fontWeight: '500' },
+    target: { fontSize: 13, color: C.textMuted },
+    progressSection: { marginBottom: 12 },
+    progressBarBg: { height: 8, backgroundColor: C.inset, borderRadius: 4, overflow: 'hidden', marginBottom: 6 },
+    progressBarFill: { height: '100%', backgroundColor: C.accent, borderRadius: 4 },
+    progressBarCompleted: { backgroundColor: C.success },
+    progressText: { fontSize: 13, color: C.textSoft, textAlign: 'center' },
+    joinButton: { paddingVertical: 10 },
+    joinButtonText: { color: C.bg, fontSize: 15, fontWeight: '600' },
+    joinedBadge: { borderRadius: 12, paddingVertical: 10, alignItems: 'center', padding: 0 },
+    joinedText: { color: C.success, fontSize: 15, fontWeight: '600' },
+    completedBadge: {},
+    completedText: { color: C.gold },
 });

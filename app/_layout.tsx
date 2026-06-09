@@ -1,4 +1,5 @@
 import { AuthProvider, useAuth } from '../src/context/AuthContext';
+import { CartProvider } from '../src/context/CartContext'; // US 5.5
 import { useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { Stack } from 'expo-router';
@@ -51,7 +52,9 @@ function RootContent() {
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <RootContent />
+      <CartProvider>
+        <RootContent />
+      </CartProvider>
     </AuthProvider>
   );
 }

@@ -1,12 +1,24 @@
-import { View, Text, StyleSheet } from 'react-native';
+// US 5.5.3 – "Tilføj til kurv"-knap på produktkortet
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Product } from '../types/index';
 import { neu, C } from '../config/neu';
+import { useCart } from '../context/CartContext';
 
 type Props = {
   product: Product;
 };
 
 export default function ProductCard({ product }: Props) {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = () => {
+    addToCart({
+      productId: product.id,
+      productName: product.name,
+      unitPrice: product.price,
+    });
+  };
+
   return (
     <View style={[neu.card, styles.card]}>
       <View style={styles.row}>
@@ -16,6 +28,9 @@ export default function ProductCard({ product }: Props) {
         </View>
       </View>
       <Text style={styles.desc}>{product.description}</Text>
+      <TouchableOpacity style={[neu.pillBtn, styles.addBtn]} onPress={handleAddToCart}>
+        <Text style={styles.addBtnText}>Tilføj til kurv</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -51,5 +66,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: C.textSoft,
     lineHeight: 20,
+    marginBottom: 14,
+  },
+  addBtn: {
+    paddingVertical: 10,
+  },
+  addBtnText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: C.text,
   },
 });

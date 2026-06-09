@@ -22,3 +22,35 @@ export type Review = {
   text: string;
   date: string;
 };
+export interface Retailer {
+  id: string;
+  name: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+}
+
+// US 5.5 – Datamodel for kurv (5.5.2)
+export type CartItem = {
+  productId: number;
+  productName: string;
+  unitPrice: number;
+  quantity: number;
+};
+
+// US 5.6 – Datamodel for ordre og ordrevarer
+export type OrderItem = {
+  id: number;
+  productId: number;
+  productName: string;
+  quantity: number;
+  unitPrice: number;
+};
+
+export type Order = {
+  id: number;
+  totalPrice: number;
+  status: string;
+  createdAt: string;
+  items: OrderItem[];
+};

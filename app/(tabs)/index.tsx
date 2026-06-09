@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
+import { useState } from 'react';
 import useHomeData from '../../src/hooks/useHomeData';
 import { sellingPoints } from '../../src/data/sellingPoints';
 import HeroSection from '../../src/components/HeroSection';
@@ -13,19 +14,25 @@ import IngredientPills from '../../src/components/IngredientPills';
 import RoadmapTeaser from '../../src/components/RoadmapTeaser';
 //import ReviewCard from '../../src/components/ReviewCard';
 import WhyLyteCard from '../../src/components/WhyLyteCard';
+import ProfileScreen from '../../src/screens/ProfileScreen';
 import { C } from '../../src/config/neu';
 
 export default function HomeScreen() {
   const { products, ingredients, reviews, loading } = useHomeData();
+  const [showProfile, setShowProfile] = useState(false);
+
+  if (showProfile) {
+    return <ProfileScreen onBack={() => setShowProfile(false)} />;
+  }
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <HeroSection />
+      <HeroSection onProfilePress={() => setShowProfile(true)} />
 
       <RoadmapTeaser />
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Hvorfor LYTE?</Text>
+        <Text style={styles.sectionTitle}>Sådan virker det</Text>
         {sellingPoints.map((sp, index) => (
           <WhyLyteCard
             key={index}

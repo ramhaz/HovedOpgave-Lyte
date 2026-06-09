@@ -1,23 +1,28 @@
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
 import { useFonts, Montserrat_700Bold_Italic } from '@expo-google-fonts/montserrat';
 import { neu, C } from '../config/neu';
 
-export default function ProfileScreen() {
+type Props = {
+  onBack?: () => void;
+};
+
+export default function ProfileScreen({ onBack }: Props) {
   const { session, logout } = useAuth();
   const user = session?.user;
   const [fontsLoaded] = useFonts({ Montserrat_700Bold_Italic });
   if (!fontsLoaded) return null;
 
   return (
-    <ImageBackground
-      source={require('../../assets/images/standinglyte.png')}
-      style={styles.bg}
-      imageStyle={{ opacity: 0.25 }}
-      resizeMode="cover"
-    >
+    <View style={styles.bg}>
       <View style={styles.container}>
         <View style={styles.header}>
+          {onBack && (
+            <TouchableOpacity onPress={onBack} style={styles.backBtn}>
+              <Ionicons name="arrow-back" size={24} color={C.text} />
+            </TouchableOpacity>
+          )}
           <Text style={[styles.logo, { letterSpacing: 1 }]}>LYTE+</Text>
           <Text style={styles.title}>Min profil</Text>
         </View>
@@ -49,7 +54,7 @@ export default function ProfileScreen() {
           <Text style={styles.logoutText}>Log ud</Text>
         </TouchableOpacity>
       </View>
-    </ImageBackground>
+    </View>
   );
 }
 
@@ -65,6 +70,9 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 24,
+  },
+  backBtn: {
+    marginBottom: 12,
   },
   logo: {
     fontSize: 28,

@@ -1,11 +1,10 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 
-// US 3.5
 type DayLog = {
   dayNumber: number;
-  loggedMl: number;
-  targetMl: number;
+  loggedHours: number;
+  targetHours: number;
   logDate: string;
 };
 
@@ -14,19 +13,19 @@ type Props = {
   currentDay: number;
 };
 
-export default function PlanOverview({ logs, currentDay }: Props) {
+export default function SleepPlanOverview({ logs, currentDay }: Props) {
   const getStatus = (log: DayLog) => {
     if (log.dayNumber > currentDay) return 'future';
-    if (log.loggedMl >= log.targetMl) return 'complete';
+    if (log.loggedHours >= log.targetHours) return 'complete';
     return 'missed';
   };
 
   return (
     <View style={[neu.card, styles.container]}>
       <View style={styles.topRow}>
-        <Text style={styles.header}>Roadmap oversigt</Text>
+        <Text style={styles.header}>Søvnplan oversigt</Text>
         <View style={[neu.inset, styles.dayBadge]}>
-          <Text style={styles.dayBadgeText}>Dag {currentDay} / 30</Text>
+          <Text style={styles.dayBadgeText}>Nat {currentDay} / 30</Text>
         </View>
       </View>
 
@@ -76,80 +75,21 @@ export default function PlanOverview({ logs, currentDay }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginBottom: 16,
-  },
-  topRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  header: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: C.text,
-  },
-  dayBadge: {
-    borderRadius: 20,
-    paddingHorizontal: 12,
-    paddingVertical: 5,
-    padding: 0,
-  },
-  dayBadgeText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: C.textSoft,
-  },
-  grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
-  dayBox: {
-    width: 40,
-    height: 40,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  dayComplete: {
-    backgroundColor: C.success,
-  },
-  dayMissed: {
-    backgroundColor: C.error,
-  },
-  dayFuture: {
-    backgroundColor: C.inset,
-  },
-  dayText: {
-    fontSize: 13,
-    fontWeight: '700',
-    color: C.textSoft,
-  },
-  dayTextLight: {
-    color: '#FFFFFF',
-  },
-  trophyText: {
-    fontSize: 18,
-  },
-  legend: {
-    flexDirection: 'row',
-    gap: 16,
-    marginTop: 16,
-  },
-  legendItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  legendDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 4,
-  },
-  legendText: {
-    fontSize: 12,
-    color: C.textSoft,
-  },
+  container: { marginBottom: 16 },
+  topRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+  header: { fontSize: 18, fontWeight: '700', color: C.text },
+  dayBadge: { borderRadius: 20, paddingHorizontal: 12, paddingVertical: 5, padding: 0 },
+  dayBadgeText: { fontSize: 12, fontWeight: '600', color: C.textSoft },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  dayBox: { width: 40, height: 40, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  dayComplete: { backgroundColor: C.success },
+  dayMissed: { backgroundColor: C.error },
+  dayFuture: { backgroundColor: C.inset },
+  dayText: { fontSize: 13, fontWeight: '700', color: C.textSoft },
+  dayTextLight: { color: '#FFFFFF' },
+  trophyText: { fontSize: 18 },
+  legend: { flexDirection: 'row', gap: 16, marginTop: 16 },
+  legendItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  legendDot: { width: 10, height: 10, borderRadius: 4 },
+  legendText: { fontSize: 12, color: C.textSoft },
 });

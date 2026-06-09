@@ -1,67 +1,63 @@
-// src/services/challengeService.ts
 import { supabase } from '../config/supabaseClient';
-
-const API_BASE = 'http://192.168.50.162:5179';
+import api from '../config/api';
 
 export interface Challenge {
     id: string;
     title: string;
     description: string;
     type: 'streak' | 'single' | 'plan';
+    category: 'hydration' | 'running' | 'sleep';
     target_value: number;
     points: number;
     is_active: boolean;
 }
 
+export interface ChallengeProgress {
+    challengeId: string;
+    title: string;
+    type: string;
+    points: number;
+    progress: number;
+    target: number;
+    progressText: string;
+    progressPercent: number;
+    isCompleted: boolean;
+    completedAt: string | null;
+}
+
+async function authHeaders() {
+    const { data: { session } } = await supabase.auth.getSession();
+    return { Authorization: `Bearer ${session?.access_token}` };
+}
+
 export const challengeService = {
-    async getAllChallenges(): Promise<Challenge[]> {
-        const { data: { session } } = await supabase.auth.getSession();
-
-        const response = await fetch(`${API_BASE}/api/challenge`, {
-            headers: {
-                'Authorization': `Bearer ${session?.access_token}`,
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error('Kunne ikke hente challenges');
-        }
-
-        return response.json();
+    async getAllChallenges(category?: string): Promise<Challenge[]> {
+        const headers = await authHeaders();
+        const params = category ? { category } : {};
+        const res = await api.get('/challenge', { headers, params });
+        return res.data;
     },
 
-   /* async joinChallenge(challengeId: string): Promise<void> {
-        const { data: { session } } = await supabase.auth.getSession();
-
-        const response = await fetch(`${API_BASE}/api/challenge/join/${challengeId}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${session?.access_token}`,
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Kunne ikke tilmelde challenge');
-        }
+    async joinChallenge(challengeId: string): Promise<void> {
+        const headers = await authHeaders();
+        await api.post(`/challenge/join/${challengeId}`, {}, { headers });
     },
 
     async getUserChallenges(): Promise<any[]> {
-        const { data: { session } } = await supabase.auth.getSession();
+        const headers = await authHeaders();
+        const res = await api.get('/challenge/my', { headers });
+        return res.data;
+    },
 
-        const response = await fetch(`${API_BASE}/api/challenge/my`, {
-            headers: {
-                'Authorization': `Bearer ${session?.access_token}`,
-                'Content-Type': 'application/json',
-            },
-        });
+    async getChallengeProgress(): Promise<ChallengeProgress[]> {
+        const headers = await authHeaders();
+        const res = await api.get('/challenge/progress', { headers });
+        return res.data;
+    },
 
-        if (!response.ok) {
-            throw new Error('Kunne ikke hente dine challenges');
-        }
-
-        return response.json();
-    },*/
+    async getTotalPoints(): Promise<{ totalPoints: number; completedChallenges: number }> {
+        const headers = await authHeaders();
+        const res = await api.get('/challenge/points', { headers });
+        return res.data;
+    },
 };

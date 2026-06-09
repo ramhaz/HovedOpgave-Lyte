@@ -23,8 +23,6 @@ export async function startPlan(userId: string) {
   }
 }
 
-
-
 export async function getTodayLog(planId: number) {
   try {
     const res = await api.get(`/hydrationlog/today/${planId}`, { timeout: 5000 });
@@ -35,7 +33,6 @@ export async function getTodayLog(planId: number) {
     return null;
   }
 }
-
 
 // US 3.3 - Log vandindtag
 export async function addWaterIntake(planId: number, dayNumber: number, amountMl: number) {

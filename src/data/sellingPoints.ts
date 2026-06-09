@@ -1,20 +1,21 @@
 export const sellingPoints = [
   {
-    icon: '⚡',
-    title: 'Elektrolytbalance',
+    icon: '🗺️',
+    title: '30-dages roadmap',
     description:
-      'LYTE indeholder den optimale kombination af natrium, kalium og magnesium, de tre vigtigste elektrolytter for din krop.',
+      'Følg din egen 30-dages plan og byg en sund hydreringsvane op dag for dag. Nå dit daglige mål og se din fremgang på roadmappet.',
   },
   {
-    icon: '🔬',
-    title: 'Baseret på videnskab',
+    icon: '🏆',
+    title: 'Challenges & præmier',
     description:
-      'Vores sammensætning er udviklet ud fra forskning i hydrering og elektrolytbalance, ikke markedsføringstrends.',
+      'Deltag i challenges, optjen points og vind præmier! Gennemfør 30-dages challengen og lås op for en eksklusiv belønning (Lyte dåse).',
   },
   {
-    icon: '🚫',
-    title: 'Uden sukker og koffein',
+    icon: '📊',
+    title: 'Track dit vandindtag',
     description:
-      'Ingen sukker, ingen kalorier, ingen koffein. Kun det din krop faktisk har brug for.',
+      'Log dit daglige vandindtag og følg din historik. Se hvor langt du er nået og hold din streak kørende.',
   },
 ];
+
