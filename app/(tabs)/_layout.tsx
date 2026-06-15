@@ -1,3 +1,7 @@
+// Tab Layout — konfigurerer bund-tab-navigationen med Expo Router.
+// Definerer alle tabs, deres ikoner, og hvilke der er synlige/skjulte.
+// Tabs med href: null er skjulte (navigeres til programmatisk, ikke via tab-bar).
+
 import { Tabs } from 'expo-router';
 import React from 'react';
 
@@ -6,12 +10,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { useCart } from '../../src/context/CartContext';
 import { View, Text, StyleSheet } from 'react-native';
 
-// US 5.5 – Badge på kurv-tab viser antal varer i kurven
+// US 5.5 – Badge-komponent på kurv-ikonet der viser antal varer
 function CartBadge({ color, size }: { color: string; size: number }) {
-  const { itemCount } = useCart();
+  const { itemCount } = useCart(); // hent antal varer fra CartContext
   return (
     <View>
       <Ionicons name="cart-outline" size={size} color={color} />
+      {/* Vis rød badge med antal hvis der er varer i kurven */}
       {itemCount > 0 && (
         <View style={badge.dot}>
           <Text style={badge.text}>{itemCount > 9 ? '9+' : itemCount}</Text>
@@ -37,6 +42,7 @@ const badge = StyleSheet.create({
   text: { color: '#fff', fontSize: 10, fontWeight: '700' },
 });
 
+// TabLayout: definerer alle tabs og deres udseende
 export default function TabLayout() {
   return (
     <Tabs

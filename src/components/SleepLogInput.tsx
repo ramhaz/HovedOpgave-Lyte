@@ -1,3 +1,7 @@
+// SleepLogInput: input-komponent til at logge søvn.
+// Quick-buttons (6, 7, 8 timer) og custom input-felt.
+// Samme layout som WaterLogInput, men for timer.
+
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import useSleepLog from '../hooks/useSleepLog';
 import { neu, C } from '../config/neu';

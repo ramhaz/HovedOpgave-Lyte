@@ -1,3 +1,6 @@
+// useRunPlanDetail hook: henter dagens løbe-log + alle løbe-logs.
+// Samme mønster som usePlanDetail, men for løb.
+
 import { useEffect, useState, useCallback } from 'react';
 import { getTodayRunLog, getAllRunLogs } from '../services/runningService';
 

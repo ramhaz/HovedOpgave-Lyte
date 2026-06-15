@@ -1,3 +1,6 @@
+// IngredientPills: viser ingredienser som horisontalt scrollbare "pills" (chips).
+// Hver pill viser ingrediensens navn og mængde.
+
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { Ingredient } from '../types/index';
 import { neu, C } from '../config/neu';

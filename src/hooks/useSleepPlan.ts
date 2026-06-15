@@ -1,3 +1,6 @@
+// useSleepPlan hook: håndterer søvnplanens tilstand.
+// Samme mønster som useHydrationPlan/useRunningPlan — hent aktiv plan, start ny, genstart.
+
 import { useEffect, useState } from 'react';
 import { checkActiveSleepPlan, startSleepPlan, restartSleepPlan } from '../services/sleepService';
 import { useAuth } from '../context/AuthContext';

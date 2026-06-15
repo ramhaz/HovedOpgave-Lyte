@@ -1,3 +1,6 @@
+// RunHistoryScreen: viser løbehistorik som en liste af dagskort.
+// Samme mønster som HistoryScreen, men for løb (km i stedet for ml).
+
 import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getRunHistoryLogs } from '../services/runningService';

@@ -1,5 +1,10 @@
+// Design-system: farver og neumorphism-styles til hele appen.
+// Neumorphism er en designstil med bløde skygger der giver et "3D"-look.
+// C = farvepaletten. neu = genanvendelige StyleSheet-styles til kort, knapper osv.
+
 import { StyleSheet } from 'react-native';
 
+// Farvekonstanter brugt i hele appen
 export const C = {
   bg: '#F5F0E1',
   card: '#F5F0E1',
@@ -15,6 +20,7 @@ export const C = {
   highlight: 'rgba(255,255,255,0.85)',
 };
 
+// Genanvendelige neumorphism-styles — importeres i hele appen med [neu.card], [neu.darkBtn] osv.
 export const neu = StyleSheet.create({
   card: {
     backgroundColor: C.card,

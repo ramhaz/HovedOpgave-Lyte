@@ -1,3 +1,7 @@
+// TypeScript types der beskriver datastrukturen for hele appen.
+// Bruges til at sikre typesikkerhed når data hentes fra API eller sendes til backend.
+
+// Produkt-type — repræsenterer et produkt fra webshoppen
 export type Product = {
   id: number;
   name: string;
@@ -6,15 +10,17 @@ export type Product = {
   imageUrl: string;
 };
 
+// Ingrediens-type — indholdsdeklaration for et produkt (fx elektrolytter)
 export type Ingredient = {
   id: number;
   name: string;
   amount: number;
   unit: string;
   type: string;
-  productId: number;
+  productId: number; // hvilken produkt ingrediensen hører til
 };
 
+// Anmeldelse-type — brugeranmeldelse af et produkt
 export type Review = {
   id: number;
   rating: number;
@@ -22,6 +28,8 @@ export type Review = {
   text: string;
   date: string;
 };
+
+// Forhandler-type — fysisk butik der sælger produktet
 export interface Retailer {
   id: string;
   name: string;
@@ -30,7 +38,7 @@ export interface Retailer {
   longitude: number;
 }
 
-// US 5.5 – Datamodel for kurv (5.5.2)
+// US 5.5 – Kurvvare: en vare i brugerens indkøbskurv
 export type CartItem = {
   productId: number;
   productName: string;
@@ -38,7 +46,7 @@ export type CartItem = {
   quantity: number;
 };
 
-// US 5.6 – Datamodel for ordre og ordrevarer
+// US 5.6 – Ordrevare: en enkelt varelinje i en gennemført ordre
 export type OrderItem = {
   id: number;
   productId: number;
@@ -47,10 +55,11 @@ export type OrderItem = {
   unitPrice: number;
 };
 
+// US 5.6 – Ordre: en samlet ordre med alle varer, totalpris og status
 export type Order = {
   id: number;
   totalPrice: number;
   status: string;
   createdAt: string;
-  items: OrderItem[];
+  items: OrderItem[]; // alle varer i ordren
 };

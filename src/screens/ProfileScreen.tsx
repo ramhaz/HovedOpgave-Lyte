@@ -1,3 +1,6 @@
+// ProfileScreen: viser brugerens profiloplysninger og log-ud knap.
+// Henter brugerdata fra AuthContext (email, oprettelsesdato).
+
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../context/AuthContext';
@@ -5,11 +8,11 @@ import { useFonts, Montserrat_700Bold_Italic } from '@expo-google-fonts/montserr
 import { neu, C } from '../config/neu';
 
 type Props = {
-  onBack?: () => void;
+  onBack?: () => void; // valgfri back-knap (bruges når profil åbnes fra forsiden)
 };
 
 export default function ProfileScreen({ onBack }: Props) {
-  const { session, logout } = useAuth();
+  const { session, logout } = useAuth(); // hent session og logout-funktion
   const user = session?.user;
   const [fontsLoaded] = useFonts({ Montserrat_700Bold_Italic });
   if (!fontsLoaded) return null;

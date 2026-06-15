@@ -1,3 +1,6 @@
+// US 2.1 – RegisterScreen: registreringsformular til nye brugere.
+// Samme layout som LoginScreen — bruger useRegister hook til al logik.
+
 import {
   Text,
   TextInput,

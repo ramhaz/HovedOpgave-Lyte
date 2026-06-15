@@ -1,7 +1,10 @@
+// US 3.5 – PlanOverview: 30-dages oversigt med farvekodede dag-bokse.
+// Grøn = fuldført, rød = misset, grå = kommende.
+// Dag 30 viser et trofæ-ikon.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 
-// US 3.5
 type DayLog = {
   dayNumber: number;
   loggedMl: number;
@@ -15,6 +18,7 @@ type Props = {
 };
 
 export default function PlanOverview({ logs, currentDay }: Props) {
+  // Bestem status for hver dag: fuldført, misset eller kommende
   const getStatus = (log: DayLog) => {
     if (log.dayNumber > currentDay) return 'future';
     if (log.loggedMl >= log.targetMl) return 'complete';

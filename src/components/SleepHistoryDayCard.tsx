@@ -1,3 +1,6 @@
+// SleepHistoryDayCard: viser én nat i søvnhistorikken.
+// Samme layout som HistoryDayCard, men for timer.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 

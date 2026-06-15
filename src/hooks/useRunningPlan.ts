@@ -1,3 +1,6 @@
+// useRunningPlan hook: håndterer løbeplanens tilstand.
+// Samme mønster som useHydrationPlan — hent aktiv plan, start ny, genstart.
+
 import { useEffect, useState } from 'react';
 import { checkActiveRunPlan, startRunPlan, restartRunPlan } from '../services/runningService';
 import { useAuth } from '../context/AuthContext';

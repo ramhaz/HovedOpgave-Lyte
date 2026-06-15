@@ -1,10 +1,8 @@
-// US 5.5.1 – Kurvens UI: produktnavn, antal, stykpris, total
-// US 5.5.3 – Tilføj til kurv sker via ProductCard + CartContext
-// US 5.5.4 – Opdatering af antal og beregning af total
-// US 5.5.6 – Købsknap med bekræftelsesdialog og kald til ordre-API
-// US 5.7.1 – Slet-knap på hvert kurvelement
-// US 5.7.2 – Bekræftelsesdialog inden sletning
-// US 5.7.3 – Total opdateres øjeblikkeligt via CartContext
+// US 5.5 + 5.7 – CartScreen: indkøbskurven.
+// Viser alle varer med antal, stykpris og total.
+// Brugeren kan ændre antal, fjerne varer og gennemføre køb.
+// Bruger CartContext til kurv-data og AuthContext til JWT-token ved køb.
+
 import {
   View,
   Text,
@@ -22,15 +20,15 @@ import { createOrder } from '../services/orderService';
 import { neu, C } from '../config/neu';
 
 type Props = {
-  onShowOrders?: () => void;
+  onShowOrders?: () => void; // callback til at vise ordrehistorik
 };
 
 export default function CartScreen({ onShowOrders }: Props) {
-  const { items, updateQuantity, removeItem, clearCart, total } = useCart();
-  const { session } = useAuth();
+  const { items, updateQuantity, removeItem, clearCart, total } = useCart(); // kurv-data
+  const { session } = useAuth(); // auth-session til API-kald
   const [loading, setLoading] = useState(false);
 
-  // US 5.7.2 – Bekræftelsesdialog inden sletning af vare
+  // Vis bekræftelsesdialog før en vare fjernes
   const handleRemove = (productId: number, productName: string) => {
     Alert.alert(
       'Fjern vare',
@@ -42,7 +40,7 @@ export default function CartScreen({ onShowOrders }: Props) {
     );
   };
 
-  // US 5.5.6 – Køb med bekræftelse og API-kald
+  // Håndter køb: vis bekræftelsesdialog, kald API, tøm kurv ved succes
   const handleBuy = () => {
     if (items.length === 0) return;
 

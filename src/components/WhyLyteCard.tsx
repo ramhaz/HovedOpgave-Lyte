@@ -1,8 +1,11 @@
+// WhyLyteCard: kort der viser et selling point med ikon, titel og beskrivelse.
+// Bruges på forsiden under "Sådan virker det"-sektionen.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 
 type Props = {
-  icon: string;
+  icon: string;       // emoji-ikon
   title: string;
   description: string;
 };

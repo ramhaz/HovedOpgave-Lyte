@@ -1,3 +1,6 @@
+// ChallengeCard: viser én challenge med titel, beskrivelse, type, mål og progress.
+// Tre tilstande: ikke tilmeldt (vis "Deltag"), tilmeldt (vis progress), gennemført (vis points).
+
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Challenge, ChallengeProgress } from '../services/challengeService';
@@ -5,11 +8,12 @@ import { neu, C } from '../config/neu';
 
 interface ChallengeCardProps {
     challenge: Challenge;
-    isJoined: boolean;
-    progress?: ChallengeProgress;
+    isJoined: boolean;           // er brugeren tilmeldt?
+    progress?: ChallengeProgress; // fremskridt (kun hvis tilmeldt)
     onJoin: (challengeId: string) => Promise<void>;
 }
 
+// Dansk labels for challenge-typer
 const typeLabels: Record<string, string> = {
     streak: '🔥 Streak',
     single: '⚡ Engangs',
@@ -17,8 +21,9 @@ const typeLabels: Record<string, string> = {
 };
 
 export default function ChallengeCard({ challenge, isJoined, progress, onJoin }: ChallengeCardProps) {
-    const [joining, setJoining] = useState(false);
+    const [joining, setJoining] = useState(false); // loading-state under tilmelding
 
+    // Tilmeld brugeren til denne challenge
     const handleJoin = async () => {
         try {
             setJoining(true);

@@ -1,3 +1,6 @@
+// useRunLog hook: håndterer logning af løbeture (km).
+// Samme mønster som useWaterLog, men med km i stedet for ml.
+
 import { useState } from 'react';
 import { addRunIntake } from '../services/runningService';
 

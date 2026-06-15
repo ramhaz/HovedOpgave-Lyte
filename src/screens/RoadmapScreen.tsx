@@ -1,3 +1,8 @@
+// RoadmapScreen: hovedskærm for 30-dages planer (vand, søvn, løb).
+// Bruger tabs til at skifte mellem de tre planer.
+// Hver plan-tab viser: dagens mål, progress bar, log-input og 30-dages oversigt.
+// Hvis ingen plan er aktiv, vises en "start plan"-knap.
+
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import { useState } from 'react';
 import useHydrationPlan from '../hooks/useHydrationPlan';
@@ -21,6 +26,7 @@ import RunPlanOverview from '../components/RunPlanOverview';
 import { useFonts, Montserrat_700Bold_Italic } from '@expo-google-fonts/montserrat';
 import { neu, C } from '../config/neu';
 
+// Union type for de tre plan-tabs
 type PlanTab = 'hydration' | 'sleep' | 'run';
 
 const tabColors: Record<PlanTab, string> = {
@@ -36,7 +42,7 @@ const tabs: { key: PlanTab; label: string; icon: string }[] = [
 ];
 
 export default function RoadmapScreen() {
-  const [activeTab, setActiveTab] = useState<PlanTab>('hydration');
+  const [activeTab, setActiveTab] = useState<PlanTab>('hydration'); // aktiv tab
   const [fontsLoaded] = useFonts({ Montserrat_700Bold_Italic });
 
   const hydration = useHydrationPlan();
@@ -115,6 +121,7 @@ export default function RoadmapScreen() {
   );
 }
 
+// HydrationContent: indhold for vand-tab — viser mål, progress og log-input
 function HydrationContent({
   plan,
   detail,
@@ -160,6 +167,7 @@ function HydrationContent({
   );
 }
 
+// SleepContent: indhold for søvn-tab
 function SleepContent({
   plan,
   detail,
@@ -205,6 +213,7 @@ function SleepContent({
   );
 }
 
+// RunContent: indhold for løbe-tab
 function RunContent({
   plan,
   detail,
@@ -250,6 +259,7 @@ function RunContent({
   );
 }
 
+// StartCard: genanvendelig komponent der vises når en plan ikke er startet endnu
 function StartCard({
   badge,
   title,
@@ -290,6 +300,7 @@ function StartCard({
   );
 }
 
+// RestartButton: knap til at genstarte planen fra dag 1
 function RestartButton({ onRestart }: { onRestart: () => void }) {
   return (
     <TouchableOpacity style={[neu.card, styles.restartBtn]} onPress={onRestart}>

@@ -1,10 +1,13 @@
+// US 3.1 – RoadmapTeaser: kort på forsiden der viser hydreringsplanens status.
+// Hvis ingen plan er aktiv: viser "Start i dag"-knap.
+// Hvis plan er aktiv: viser "Plan aktiv" (knap er deaktiveret).
+
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import useHydrationPlan from '../hooks/useHydrationPlan';
 import { neu, C } from '../config/neu';
 
-// US 3.1
 export default function RoadmapTeaser() {
-  const { plan, starting, handleStartPlan } = useHydrationPlan();
+  const { plan, starting, handleStartPlan } = useHydrationPlan(); // hent plan-status
 
   return (
     <View style={[neu.card, styles.card]}>

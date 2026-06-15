@@ -1,3 +1,6 @@
+// useSleepLog hook: håndterer logning af søvn (timer).
+// Samme mønster som useWaterLog/useRunLog.
+
 import { useState } from 'react';
 import { addSleepEntry } from '../services/sleepService';
 

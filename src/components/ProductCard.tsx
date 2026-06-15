@@ -1,4 +1,6 @@
-// US 5.5.3 – "Tilføj til kurv"-knap på produktkortet
+// US 5.5.3 – ProductCard: viser et produkt med navn, pris og "Tilføj til kurv"-knap.
+// Bruger useCart() til at tilføje produktet til den globale kurv-state.
+
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Product } from '../types/index';
 import { neu, C } from '../config/neu';
@@ -9,8 +11,9 @@ type Props = {
 };
 
 export default function ProductCard({ product }: Props) {
-  const { addToCart } = useCart();
+  const { addToCart } = useCart(); // hent addToCart fra CartContext
 
+  // Tilføj produktet til kurven med de nødvendige felter
   const handleAddToCart = () => {
     addToCart({
       productId: product.id,

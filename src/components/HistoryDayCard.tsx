@@ -1,7 +1,10 @@
+// US 3.6 – HistoryDayCard: viser én dag i hydreringshistorikken.
+// Viser dagnummer, dato, progress bar og ml logget vs. mål.
+// Grøn farve når målet er nået.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 
-// US 3.6
 type Props = {
   dayNumber: number;
   logDate: string;
@@ -10,9 +13,9 @@ type Props = {
 };
 
 export default function HistoryDayCard({ dayNumber, logDate, loggedMl, targetMl }: Props) {
-  const percent = Math.min(Math.round((loggedMl / targetMl) * 100), 100);
-  const isComplete = loggedMl >= targetMl;
-  const dateStr = new Date(logDate).toLocaleDateString('da-DK', {
+  const percent = Math.min(Math.round((loggedMl / targetMl) * 100), 100); // procent af mål
+  const isComplete = loggedMl >= targetMl; // er målet nået?
+  const dateStr = new Date(logDate).toLocaleDateString('da-DK', { // formater dato på dansk
     day: 'numeric',
     month: 'short',
   });

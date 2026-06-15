@@ -1,9 +1,12 @@
+// RunProgressBar: progress bar for dagens løbemål.
+// Samme layout som DailyProgressBar, men for km.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 
 type Props = {
-  loggedKm: number;
-  targetKm: number;
+  loggedKm: number;   // km løbet i dag
+  targetKm: number;   // dagens mål i km
 };
 
 export default function RunProgressBar({ loggedKm, targetKm }: Props) {

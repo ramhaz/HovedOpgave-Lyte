@@ -1,3 +1,6 @@
+// RunTodayGoal: viser dagens løbemål (fx "1.5 km i dag").
+// Samme layout som TodayGoal, men for km.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 

@@ -1,3 +1,7 @@
+// US 2.2 – LoginScreen: login-formular med email og adgangskode.
+// Bruger useLogin hook til al logik — denne komponent er kun UI.
+// KeyboardAvoidingView sørger for at formularen ikke skjules af tastaturet på iOS.
+
 import {
   Text,
   TextInput,
@@ -18,6 +22,7 @@ type Props = {
 };
 
 export default function LoginScreen({ onLoginSuccess, onGoToRegister }: Props) {
+  // Hent state og funktioner fra useLogin hook
   const { email, setEmail, password, setPassword, loading, error, handleLogin } =
     useLogin(onLoginSuccess);
   const [fontsLoaded] = useFonts({ Montserrat_700Bold_Italic });

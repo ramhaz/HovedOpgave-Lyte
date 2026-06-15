@@ -1,3 +1,5 @@
+// Statisk data: selling points der vises på forsiden under "Sådan virker det".
+// Hvert objekt har et ikon, titel og beskrivelse.
 export const sellingPoints = [
   {
     icon: '🗺️',

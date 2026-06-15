@@ -1,17 +1,23 @@
+// Auth service — håndterer login og registrering via Supabase Auth.
+// Returnerer altid et AuthResult-objekt med success/error så UI kan vise feedback.
+
 import { supabase } from '../config/supabaseClient';
 
+// Resultat-type der bruges af både login og registrering
 export type AuthResult = {
   success: boolean;
   error?: string;
 };
 
-//usertorie 2.2
+// US 2.2 – Login: sender email+password til Supabase og returnerer resultat
 export async function loginUser(email: string, password: string): Promise<AuthResult> {
+  // Validering: tjek at begge felter er udfyldt
   if (!email || !password) {
     return { success: false, error: 'Udfyld venligst både email og adgangskode.' };
   }
 
   try {
+    // Kald Supabase Auth med email/password login
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -21,6 +27,7 @@ export async function loginUser(email: string, password: string): Promise<AuthRe
       return { success: false, error: 'Forkert email eller adgangskode.' };
     }
 
+    // Hvis vi fik en session tilbage, er login succesfuldt
     if (data.session) {
       return { success: true };
     }
@@ -31,9 +38,9 @@ export async function loginUser(email: string, password: string): Promise<AuthRe
   }
 }
 
-
-// userstpore 2.1
+// US 2.1 – Registrering: opretter ny bruger i Supabase Auth
 export async function registerUser(email: string, password: string): Promise<AuthResult> {
+  // Validering: tjek at begge felter er udfyldt
   if (!email || !password) {
     return { success: false, error: 'Udfyld venligst både email og adgangskode.' };
   }
@@ -43,18 +50,21 @@ export async function registerUser(email: string, password: string): Promise<Aut
   }
 
   try {
+    // Kald Supabase Auth signUp for at oprette en ny bruger
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
 
     if (error) {
+      // Tjek om emailen allerede er i brug
       if (error.message.includes('already registered')) {
         return { success: false, error: 'Denne email er allerede registreret.' };
       }
       return { success: false, error: error.message };
     }
 
+    // Hvis vi fik en bruger tilbage, er registreringen succesfuld
     if (data.user) {
       return { success: true };
     }
@@ -62,5 +72,5 @@ export async function registerUser(email: string, password: string): Promise<Aut
     return { success: false, error: 'Noget gik galt. Prøv igen.' };
   } catch (err) {
     return { success: false, error: 'Noget gik galt. Prøv igen.' };
-  }  
+  }
 }

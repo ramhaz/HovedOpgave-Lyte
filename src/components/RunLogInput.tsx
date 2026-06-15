@@ -1,3 +1,7 @@
+// RunLogInput: input-komponent til at logge løbeture.
+// Quick-buttons (0.5 km, 1.0 km) og custom input-felt.
+// Samme layout som WaterLogInput, men for km.
+
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import useRunLog from '../hooks/useRunLog';
 import { neu, C } from '../config/neu';

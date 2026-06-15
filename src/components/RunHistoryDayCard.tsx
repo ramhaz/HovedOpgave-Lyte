@@ -1,3 +1,6 @@
+// RunHistoryDayCard: viser én dag i løbehistorikken.
+// Samme layout som HistoryDayCard, men for km.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 

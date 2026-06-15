@@ -1,3 +1,6 @@
+// SleepPlanOverview: 30-nætters oversigt for søvnplanen.
+// Samme layout som PlanOverview, men for timer.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 

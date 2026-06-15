@@ -1,3 +1,6 @@
+// SleepTodayGoal: viser nattens søvnmål (fx "7 timer i nat").
+// Samme layout som TodayGoal, men for timer.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 

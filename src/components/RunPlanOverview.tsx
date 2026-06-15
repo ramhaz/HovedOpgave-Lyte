@@ -1,3 +1,6 @@
+// RunPlanOverview: 30-dages oversigt for løbeplanen.
+// Samme layout som PlanOverview, men for km.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 

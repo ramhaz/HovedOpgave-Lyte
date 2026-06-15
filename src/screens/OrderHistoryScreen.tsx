@@ -1,5 +1,7 @@
-// US 5.6.2 – Listvisning med dato, produkter og status
-// US 5.6.3 – Sorteret liste (nyeste først, håndteres af API)
+// US 5.6 – OrderHistoryScreen: viser brugerens tidligere ordrer.
+// Hver ordre vises som et kort med dato, status, vareliste og total.
+// Data hentes via useOrderHistory hook (sorteret nyeste først af backend).
+
 import {
   View,
   Text,
@@ -13,6 +15,7 @@ import { useOrderHistory } from '../hooks/useOrderHistory';
 import { Order } from '../types/index';
 import { neu, C } from '../config/neu';
 
+// OrderCard: viser én ordre med dato, varer og totalpris
 function OrderCard({ order }: { order: Order }) {
   const date = new Date(order.createdAt).toLocaleDateString('da-DK', {
     day: 'numeric',

@@ -1,3 +1,6 @@
+// SleepHistoryScreen: viser søvnhistorik som en liste af natkort.
+// Samme mønster som HistoryScreen, men for søvn (timer i stedet for ml).
+
 import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getSleepHistoryLogs } from '../services/sleepService';

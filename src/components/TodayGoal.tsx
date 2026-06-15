@@ -1,14 +1,16 @@
+// US 3.2 – TodayGoal: viser dagens vandmål (fx "1.5 liter i dag").
+// Konverterer ml til liter for pænere visning.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 
-// US 3.2
 type Props = {
   dayNumber: number;
   targetMl: number;
 };
 
 export default function TodayGoal({ dayNumber, targetMl }: Props) {
-  const liters = (targetMl / 1000).toFixed(1);
+  const liters = (targetMl / 1000).toFixed(1); // konverter ml til liter
 
   return (
     <View style={[neu.card, styles.card]}>

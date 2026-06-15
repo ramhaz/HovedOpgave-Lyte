@@ -1,9 +1,12 @@
+// SleepProgressBar: progress bar for nattens søvnmål.
+// Samme layout som DailyProgressBar, men for timer.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 
 type Props = {
-  loggedHours: number;
-  targetHours: number;
+  loggedHours: number;   // timer sovet
+  targetHours: number;   // nattens mål
 };
 
 export default function SleepProgressBar({ loggedHours, targetHours }: Props) {

@@ -1,3 +1,6 @@
+// RunRoadmapScreen: standalone roadmap-skærm for løbeplanen.
+// Viser dagens mål, progress, log-input og 30-dages oversigt.
+
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import useRunningPlan from '../hooks/useRunningPlan';
 import useRunPlanDetail from '../hooks/useRunPlanDetail';

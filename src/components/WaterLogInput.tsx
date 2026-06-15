@@ -1,12 +1,15 @@
+// US 3.3 – WaterLogInput: input-komponent til at logge vandindtag.
+// Har quick-buttons (250ml, 500ml) og et custom input-felt.
+// Bruger useWaterLog hook til al logik.
+
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import useWaterLog from '../hooks/useWaterLog';
 import { neu, C } from '../config/neu';
 
-// US 3.3
 type Props = {
   planId: number;
   dayNumber: number;
-  onLogged: () => void;
+  onLogged: () => void; // callback der kører efter succesfuld logning
 };
 
 export default function WaterLogInput({ planId, dayNumber, onLogged }: Props) {

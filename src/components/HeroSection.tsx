@@ -1,3 +1,5 @@
+// HeroSection: header på forsiden med logo, hilsen og knapper til profil/logout.
+
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../src/context/AuthContext';
@@ -5,7 +7,7 @@ import { useFonts, Montserrat_700Bold_Italic } from '@expo-google-fonts/montserr
 import { C } from '../config/neu';
 
 type Props = {
-  onProfilePress?: () => void;
+  onProfilePress?: () => void; // callback når brugeren trykker profil-ikon
 };
 
 export default function HeroSection({ onProfilePress }: Props) {

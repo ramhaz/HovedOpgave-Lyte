@@ -1,3 +1,7 @@
+// US 3.6 – HistoryScreen: viser hydreringshistorik som en liste af dagskort.
+// Bruger FlatList for performant scrolling af mange elementer.
+// Henter data fra hydrationService baseret på aktiv plan.
+
 import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getHistoryLogs } from '../services/hydrationService';
@@ -5,7 +9,6 @@ import HistoryDayCard from '../components/HistoryDayCard';
 import useHydrationPlan from '../hooks/useHydrationPlan';
 import { neu, C } from '../config/neu';
 
-// US 3.6
 export default function HistoryScreen() {
   const { plan, loading: planLoading } = useHydrationPlan();
   const [logs, setLogs] = useState<any[]>([]);

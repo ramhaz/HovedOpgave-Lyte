@@ -1,3 +1,7 @@
+// ChallengesScreen: viser alle tilgængelige challenges i en liste.
+// Brugeren kan tilmelde sig challenges, se fremskridt og optjene points.
+// Bruger FlatList med RefreshControl (pull-to-refresh).
+
 import React from 'react';
 import {
     View,

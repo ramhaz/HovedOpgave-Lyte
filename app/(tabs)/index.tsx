@@ -1,3 +1,7 @@
+// HomeScreen (index): forsiden af appen.
+// Viser hero-sektion, hydreringsplan-teaser, selling points, ingredienser og produkter.
+// Kan også vise profil-skærmen som overlay (via useState toggle).
+
 import {
   ScrollView,
   View,
@@ -18,8 +22,8 @@ import ProfileScreen from '../../src/screens/ProfileScreen';
 import { C } from '../../src/config/neu';
 
 export default function HomeScreen() {
-  const { products, ingredients, reviews, loading } = useHomeData();
-  const [showProfile, setShowProfile] = useState(false);
+  const { products, ingredients, reviews, loading } = useHomeData(); // hent data til forsiden
+  const [showProfile, setShowProfile] = useState(false); // toggle profil-visning
 
   if (showProfile) {
     return <ProfileScreen onBack={() => setShowProfile(false)} />;

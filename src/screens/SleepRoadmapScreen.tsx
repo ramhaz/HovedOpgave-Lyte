@@ -1,3 +1,6 @@
+// SleepRoadmapScreen: standalone roadmap-skærm for søvnplanen.
+// Viser nattens mål, progress, log-input og 30-nætters oversigt.
+
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native';
 import useSleepPlan from '../hooks/useSleepPlan';
 import useSleepPlanDetail from '../hooks/useSleepPlanDetail';

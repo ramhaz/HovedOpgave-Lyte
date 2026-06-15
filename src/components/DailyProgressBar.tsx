@@ -1,15 +1,17 @@
+// US 3.4 – DailyProgressBar: viser en progress bar for dagens vandindtag.
+// Beregner procent og viser grøn farve når målet er nået.
+
 import { View, Text, StyleSheet } from 'react-native';
 import { neu, C } from '../config/neu';
 
-// US 3.4
 type Props = {
-  loggedMl: number;
-  targetMl: number;
+  loggedMl: number;  // hvor meget brugeren har drukket
+  targetMl: number;  // dagens mål
 };
 
 export default function DailyProgressBar({ loggedMl, targetMl }: Props) {
-  const percent = Math.min(Math.round((loggedMl / targetMl) * 100), 100);
-  const isComplete = loggedMl >= targetMl;
+  const percent = Math.min(Math.round((loggedMl / targetMl) * 100), 100); // beregn procent (max 100)
+  const isComplete = loggedMl >= targetMl; // er målet nået?
 
   return (
     <View style={[neu.card, styles.card]}>
